@@ -1,0 +1,38 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+
+# API Keys and sensitive data
+config.py
+*.key
+.env
+.env.local
+
+# Output files
+*.json
+!example_addresses.json
+!example_addresses.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test files
+test_result.json
+batch_results.json
+verify_results.py
+
