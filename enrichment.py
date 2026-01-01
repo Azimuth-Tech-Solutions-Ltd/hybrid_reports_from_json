@@ -20,7 +20,13 @@ try:
     )
 except ImportError:
     # Fallback if config.py is not available
-    GOOGLE_API_KEY = "AIzaSyBS-qJM2wmAc11UkQr3q2SgR27SKkaaIvI"
+    import os
+    GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+    if not GOOGLE_API_KEY:
+        raise ValueError(
+            "GOOGLE_API_KEY not found! Please set it via environment variable "
+            "or create config.py with your API key."
+        )
     DEFAULT_RADIUS = 1000
     GEOCODING_URL = "https://maps.googleapis.com/maps/api/geocode/json"
     PLACES_NEARBY_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json"
