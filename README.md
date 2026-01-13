@@ -60,9 +60,11 @@ Output reports will be available in `report_engine/outputs/`.
 
 ## Documentation
 
-- **Architecture**: See [ARCHITECTURE.md](ARCHITECTURE.md)
-- **Sections Registry**: See [report_engine/sections/REGISTRY.md](report_engine/sections/REGISTRY.md)
-- **Production Guide**: See [PRODUCTION_README.md](PRODUCTION_README.md)
+- **Quick Start**: See [QUICK_START.md](QUICK_START.md) - Get running in 5 minutes
+- **Input JSON Guide**: See [INPUT_JSON_GUIDE.md](INPUT_JSON_GUIDE.md) - Complete input format documentation
+- **Architecture**: See [ARCHITECTURE.md](ARCHITECTURE.md) - System design and data flow
+- **Sections Registry**: See [report_engine/sections/REGISTRY.md](report_engine/sections/REGISTRY.md) - All available sections
+- **Production Guide**: See [PRODUCTION_README.md](PRODUCTION_README.md) - Production operations
 
 ## Costs
 
