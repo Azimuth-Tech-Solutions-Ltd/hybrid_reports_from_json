@@ -5,34 +5,43 @@ __pycache__/
 *.so
 .Python
 env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
 venv/
-ENV/
-.venv
-
-# API Keys and sensitive data
-config.py
-*.key
 .env
-.env.local
 
-# Output files
-*.json
-!example_addresses.json
-!example_addresses.txt
-
-# IDE
+# IDEs
 .vscode/
 .idea/
-*.swp
-*.swo
-*~
+.cursor/
 
-# OS
-.DS_Store
-Thumbs.db
+# Project Specific
+# Exclude outputs and large test files
+report_engine/outputs*/
+report_engine/logs/
+the_property/outputs/
+Azimuth_Batch_Reports/
+*.pdf
+*.json
+!hybrid_reports_input_template.json
+!report_engine/prompts/*.txt
+!report_engine/templates/*.txt
 
-# Test files
-test_result.json
-batch_results.json
-verify_results.py
-
+# Keep credentials safe
+config.py
+.env

@@ -1,185 +1,75 @@
-# Google Address Enrichment Pipeline
+# Azimuth Hybrid Reports System
 
-A Python pipeline to enrich property addresses with Google Maps API data including geocoding, amenities, transport, schools, crime statistics, air quality, commute times, and solar potential.
+Institutional-grade UK residential property valuation report generator. This system enriches property addresses with Google Maps data and generates professional, multi-section PDF reports using a modular engine.
+
+## Overview
+
+The Azimuth Hybrid Reports system generates comprehensive valuation reports from a unified JSON input. It combines LLM-generated narratives (using Gemini 2.0 Flash) with deterministic code-based sections to create high-quality, RICS-compliant desktop valuations.
 
 ## Features
 
-- **Geocoding**: Convert addresses to coordinates
-- **Visual Links**: Street view, satellite, and roadmap URLs
-- **Amenities**: Nearby supermarkets, restaurants, gyms, and parks
-- **Transport**: Nearest subway/transit stations
-- **Schools**: Top-rated nearby schools
-- **Crime Statistics**: Local crime data (UK only via police.uk API)
-- **Air Quality**: Current air quality index
-- **Commute Times**: Distance and duration to a destination
-- **Solar Potential**: Building solar panel potential
+- **Address Enrichment**: Automated gathering of amenities, transport, crime, air quality, and solar potential via Google Maps APIs.
+- **Modular Report Engine**: Section-based generation allowing for flexible report structures.
+- **LLM Integration**: Dynamic narrative generation for property overviews and market commentary using Gemini 2.0 Flash with Google Search grounding.
+- **Institutional Branding**: Professional PDF layouts with Azimuth blue styling, custom tables, and high-resolution imagery.
+- **Smart Caching**: Market commentary is generated once per month and shared across all properties to optimize costs.
+- **Unified Workflow**: A single JSON input file drives the entire end-to-end process.
 
-## Installation
+## Repository Structure
 
-1. Install dependencies:
+- `report_engine/`: Core modular report generation logic.
+  - `schemas/`: Pydantic models for data validation.
+  - `prompts/`: LLM prompt templates for each section.
+  - `sections/`: Implementation of individual report sections (LLM & Code).
+  - `assembler/`: Logic for PDF styling, cover pages, and merging.
+  - `pipelines/`: End-to-end generation workflows.
+- `ARCHITECTURE.md`: Detailed system architecture and data flow diagrams.
+- `REGISTRY.md`: Documentation of all available report sections.
+- `enrichment.py`: Core logic for Google Maps Platform integration.
+- `pipeline.py`: Legacy address enrichment pipeline.
+- `create_unified_json.py`: Utility to merge property data with enrichment results.
+
+## Quick Start
+
+### 1. Installation
+
 ```bash
 pip install -r requirements.txt
 ```
 
-2. Set your Google API key:
-   - Option 1: Edit `config.py` and set `GOOGLE_API_KEY`
-   - Option 2: Set environment variable: `export GOOGLE_API_KEY=your_key_here`
+### 2. Configuration
 
-**Required Google APIs**: Make sure your API key has access to:
-- Geocoding API
-- Places API
-- Distance Matrix API
-- Static Maps API
-- Street View Static API
-- Solar API
-- Air Quality API
-
-## Usage
-
-### Process a single address
+Set your API keys:
+- `GOOGLE_API_KEY`: For Maps, Places, Solar, Air Quality.
+- `GEMINI_API_KEY`: For LLM narrative generation.
 
 ```bash
-python pipeline.py --address "10 Macaulay Road, London, SW4 0QX"
+export GOOGLE_API_KEY=your_key_here
+export GEMINI_API_KEY=your_key_here
 ```
 
-### Process addresses from a text file
+### 3. Generate Reports
 
-Create a text file with one address per line:
-```
-10 Macaulay Road, London, SW4 0QX
-123 Oxford Street, London, W1D 2HX
-```
-
-Then run:
-```bash
-python pipeline.py --input addresses.txt --output results.json
-```
-
-### Process addresses from a JSON file
-
-Create a JSON file with an array of addresses:
-```json
-[
-  "10 Macaulay Road, London, SW4 0QX",
-  "123 Oxford Street, London, W1D 2HX"
-]
-```
-
-Then run:
-```bash
-python pipeline.py --input addresses.json --output results.json
-```
-
-### Process from stdin
+Prepare your unified JSON input (see `hybrid_reports_input_template.json`) and run the production pipeline:
 
 ```bash
-echo "10 Macaulay Road, London, SW4 0QX" | python pipeline.py --stdin --output results.json
+python -m report_engine.pipelines.production_pipeline --input hybrid_reports_input.json
 ```
 
-### Custom commute destination
+Output reports will be available in `report_engine/outputs/`.
 
-```bash
-python pipeline.py --input addresses.txt --commute-dest "Oxford Street, London" --output results.json
-```
+## Documentation
 
-### Compact JSON output
+- **Architecture**: See [ARCHITECTURE.md](ARCHITECTURE.md)
+- **Sections Registry**: See [report_engine/sections/REGISTRY.md](report_engine/sections/REGISTRY.md)
+- **Production Guide**: See [PRODUCTION_README.md](PRODUCTION_README.md)
 
-```bash
-python pipeline.py --address "10 Macaulay Road, London, SW4 0QX" --compact
-```
+## Costs
 
-## Command Line Options
+The system is highly optimized for cost:
+- **Enrichment**: ~$0.19 per property (covered by Google's $200 free credit).
+- **Narratives**: ~$0.01 per property using Gemini 2.0 Flash.
+- **Macro Data**: Cached monthly updates minimize search grounding costs.
 
-```
-  --address ADDRESS        Single address to process
-  --input FILE            Input file path (text or JSON)
-  --stdin                 Read addresses from stdin
-  --output FILE           Output JSON file path (optional, prints to stdout if not specified)
-  --commute-dest ADDRESS  Destination for commute calculation (default: "Charing Cross, London")
-  --compact               Output compact JSON (no indentation)
-```
-
-## Output Format
-
-The pipeline outputs JSON with the following structure:
-
-```json
-[
-  {
-    "input_address": "10 Macaulay Road, London, SW4 0QX",
-    "address": {
-      "formatted_address": "...",
-      "latitude": 51.123,
-      "longitude": -0.456
-    },
-    "location": {
-      "lat": 51.123,
-      "lng": -0.456
-    },
-    "visuals": {
-      "street_view_url": "...",
-      "satellite_map_url": "...",
-      "roadmap_url": "..."
-    },
-    "amenities": {
-      "supermarkets": {
-        "count": 5,
-        "top_pick": {
-          "name": "...",
-          "rating": 4.5,
-          "reviews": 100
-        }
-      },
-      ...
-    },
-    "transport": [...],
-    "schools": [...],
-    "crime": {
-      "total_incidents": 10,
-      "top_categories": [...]
-    },
-    "air_quality": {
-      "aqi": 50,
-      "category": "GOOD"
-    },
-    "commute_to_city": {
-      "distance": "5.2 km",
-      "duration": "15 mins"
-    },
-    "solar": {
-      "max_panels": 20,
-      "estimated_kw": 8.0,
-      "annual_kwh": 10000
-    }
-  }
-]
-```
-
-## Programmatic Usage
-
-You can also use the enrichment functions directly in Python:
-
-```python
-from enrichment import analyze_property
-import json
-
-result = analyze_property("10 Macaulay Road, London, SW4 0QX")
-print(json.dumps(result, indent=2))
-```
-
-## Troubleshooting
-
-1. **Invalid API Key**: Make sure your Google API key is valid and has all required APIs enabled
-2. **Quota Exceeded**: Check your Google Cloud Console for API quota limits
-3. **No Results**: Some APIs may not have data for all locations (especially crime data for non-UK locations)
-4. **Network Errors**: Ensure you have internet connectivity and can reach Google APIs
-
-## Files
-
-- `enrichment.py`: Core enrichment functions
-- `pipeline.py`: Command-line pipeline script
-- `config.py`: Configuration settings
-- `requirements.txt`: Python dependencies
-- `example_addresses.txt`: Example text file input
-- `example_addresses.json`: Example JSON file input
-
+---
+© 2026 Azimuth Tech Solutions Ltd | Institutional Property Intelligence

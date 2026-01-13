@@ -1,0 +1,12 @@
+Analyze the geographic and neighborhood context of the subject property.
+Generate the "data" object for the "location" section.
+
+Expected data fields:
+- "neighborhood_context": string (Narrative about the area prestige, density, and character)
+- "amenity_density": string (Analysis of nearby points of interest and essential services)
+- "demographic_profile": string (Inferred or assumed professional/economic profile of the locale)
+
+Rules:
+- Focus on the "premium" nature of the location if supported by the data.
+- Use the proximity data from the enrichment results.
+

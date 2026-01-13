@@ -1,0 +1,110 @@
+{
+  "metadata": {
+    "report_date": "January 2026",
+    "client_name": "Client Name",
+    "valuation_purpose": "Desktop Valuation",
+    "api_key": "optional_gemini_api_key_here"
+  },
+  "properties": [
+    {
+      "valuation_id": "v01",
+      "address": {
+        "paon": "4E",
+        "saon": null,
+        "street": "AIRLIE GARDENS",
+        "postcode": "W8 7AJ",
+        "formatted_address": "4E Airlie Gardens, London W8 7AJ, UK"
+      },
+      "property_data": {
+        "latitude": 51.5050949,
+        "longitude": -0.2012093,
+        "total_size_sqm": 132.001041744,
+        "number_of_bedrooms": 2,
+        "property_type_standardized": "F",
+        "tenure": "Freehold",
+        "features": {
+          "total_size_sqft": 1420.848,
+          "number_of_bathrooms": 2,
+          "property_condition_standardized": "Good",
+          "building_period_standardized": "Pre-War (Before 1945)",
+          "location_quality_standardized": "Standard"
+        },
+        "epc": {
+          "FLOOR_LEVEL": "Ground",
+          "CURRENT_ENERGY_RATING": "D"
+        },
+        "correction_layer": {
+          "final_price": 2786504.88,
+          "last_sale_price": 2000000,
+          "last_sale_date": "2020-01-15",
+          "last_sale_price_today": 2200000,
+          "knn_comparables": [
+            {
+              "address": "76 Holland Park, W11 3SL",
+              "distance_to_subject_m": 328.63,
+              "property_type_standardized": "F",
+              "tenure": "F",
+              "total_size_sqm": 107.0,
+              "estimated_bedrooms": 4,
+              "original_price": 945000.0,
+              "sale_date": "2024-11-29"
+            }
+          ]
+        },
+        "phase1_comparables": []
+      },
+      "enrichment_data": {
+        "visuals": {
+          "street_view_url": "https://maps.googleapis.com/maps/api/streetview?size=600x400&location=51.5050916,-0.1986344&key=YOUR_KEY",
+          "satellite_map_url": "https://maps.googleapis.com/maps/api/staticmap?center=51.5050916,-0.1986344&zoom=20&size=600x600&maptype=hybrid&markers=color:red|51.5050916,-0.1986344&key=YOUR_KEY",
+          "roadmap_url": "https://maps.googleapis.com/maps/api/staticmap?center=51.5050916,-0.1986344&zoom=15&size=600x400&maptype=roadmap&markers=color:red|label:H|51.5050916,-0.1986344&key=YOUR_KEY"
+        },
+        "amenities": {
+          "supermarkets": {
+            "count": 19,
+            "top_pick": {
+              "name": "Damascene Rose Deli",
+              "rating": 4.6
+            }
+          },
+          "restaurants": {
+            "count": 20,
+            "top_pick": {
+              "name": "Maggie Jones's Restaurant",
+              "rating": 4.6
+            }
+          }
+        },
+        "transport": [
+          {
+            "name": "Holland Park Station",
+            "distance_estimate_m": 500,
+            "type": "Underground"
+          }
+        ],
+        "schools": [
+          {
+            "name": "Example School",
+            "rating": 5.0
+          }
+        ],
+        "crime": {
+          "total_incidents": 100,
+          "top_categories": [["theft", 50], ["violent", 30]]
+        },
+        "air_quality": {
+          "aqi": 45,
+          "category": "Good"
+        },
+        "solar": {
+          "annual_kwh": 5000
+        },
+        "commute_to_city": {
+          "duration": "15 min",
+          "distance": "5.2 km"
+        }
+      }
+    }
+  ]
+}
+

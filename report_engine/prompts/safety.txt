@@ -1,0 +1,11 @@
+Analyze the safety, crime, and environmental risks for the subject property.
+Generate the "data" object for the "safety" section.
+
+Expected data fields:
+- "crime_analysis": string (Narrative about local crime rates, specific types of incidents, and overall safety context)
+- "environmental_factors": string (Air quality, flood risk assumptions, or solar potential)
+
+Rules:
+- Be objective and evidentiary.
+- Use the crime statistics provided in the enrichment data.
+

@@ -1,0 +1,11 @@
+Analyze the transport and connectivity infrastructure for the subject property.
+Generate the "data" object for the "infrastructure" section.
+
+Expected data fields:
+- "transport_links": string (Analysis of rail and tube proximity, frequency, and zones)
+- "connectivity_rating": string (A professional judgment of the asset's connectivity)
+
+Rules:
+- Professional, neutral tone.
+- Reference specific distances from the JSON data.
+

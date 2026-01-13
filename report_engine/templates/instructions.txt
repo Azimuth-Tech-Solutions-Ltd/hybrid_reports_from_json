@@ -1,0 +1,66 @@
+1. Instructions
+
+Report Date: {{report_date}}
+Prepared for: {{client_name}}
+Purpose of Valuation: {{valuation_purpose}}
+
+Subject Property: {{property_address_full}}
+
+Azimuth confirms that no internal or physical inspection of the subject property has been undertaken.
+This valuation has been prepared using Azimuth’s proprietary analytical models, supported by third-party data sources, publicly available records, and information provided by or on behalf of the Client.
+
+The valuation reflects market conditions and information available as at the valuation date and assumes that there have been no material changes to the property since the dates of the underlying data sources used in the analysis.
+
+Should any information relating to floor area, accommodation, condition, tenure, planning status, or legal title prove to be inaccurate, incomplete, or outdated, the valuation outcome may be subject to review.
+
+Scope of Work
+
+This Report constitutes a desktop, model-driven valuation assessment prepared in accordance with the agreed terms of engagement.
+
+No internal inspection, measured survey, structural assessment, or legal due diligence has been carried out.
+Accordingly, this Report should not be relied upon as a substitute for a full inspection-based valuation, unless expressly agreed in writing.
+
+Nature of the Valuation
+
+The valuation is derived from a hybrid analytical framework, combining:
+- Market evidence
+- Statistical and machine-learning models
+- Location and property-specific attributes
+- Temporal market adjustments
+
+Where applicable, Azimuth provides confidence indicators and limitations to assist users in understanding the reliability of the valuation output.
+
+Reliance and Liability
+
+This Report is prepared solely for the use of the named Client and for the stated purpose.
+
+No responsibility is accepted to any third party, and no third party may rely upon this Report without Azimuth’s prior written consent.
+Any onward reliance, assignment, or use of this Report requires a separate reliance agreement and may be subject to an additional fee.
+
+Information Sources
+
+In preparing this valuation, Azimuth has relied upon information obtained from a combination of:
+- Public land registry and transaction records
+- Planning and local authority datasets
+- Energy Performance Certificate (EPC) data, where available
+- Online property databases and market comparables
+- Azimuth proprietary data pipelines, models, and analytics
+
+Azimuth has not independently verified all such information and does not warrant its completeness or accuracy.
+
+Special Assumptions
+
+This valuation is provided subject to the following assumptions:
+- That the information used accurately reflects the current condition and status of the property
+- That the property has good and marketable title, free from materially onerous or restrictive covenants
+- That the property benefits from all necessary planning permissions and statutory consents
+- That there are no undisclosed environmental, structural, or legal issues materially affecting value
+- That reported floor areas and property attributes are accurate
+
+If any of these assumptions are found to be incorrect, the valuation may require revision.
+
+General
+
+This Report has been prepared in line with the agreed scope of services and is considered sufficient for the stated purpose.
+The work undertaken, the information relied upon, and the applicable limitations are governed by Azimuth’s Standard Terms of Business.
+
