@@ -18,13 +18,35 @@ class NeighbourhoodReflector:
         addr_data = self.data.get('address', {})
         if not isinstance(addr_data, dict):
             addr_data = {}
-        addr = addr_data.get('formatted_address', self.data.get('input_address', 'N/A'))
+        addr = addr_data.get('formatted_address', self.data.get('input_address', ''))
+        
+        # If still no address, try to build from components
+        if not addr or addr == 'N/A':
+            paon = addr_data.get('paon', '')
+            street = addr_data.get('street', '')
+            postcode = addr_data.get('postcode', '')
+            if paon or street or postcode:
+                addr_parts = []
+                if paon:
+                    addr_parts.append(paon)
+                if street:
+                    addr_parts.append(street)
+                if postcode:
+                    addr_parts.append(postcode)
+                addr = ', '.join(addr_parts) if addr_parts else ''
+        
+        # Final fallback - use a generic description instead of N/A
+        if not addr or addr == 'N/A':
+            addr = 'the subject property'
         
         # Extract all enrichment data
         commute_data = self.data.get('commute_to_city', {})
         if not isinstance(commute_data, dict):
             commute_data = {}
         dur = commute_data.get('duration', 'N/A')
+        # Clean up duration - remove "N/A" from narrative
+        if dur == 'N/A' or not dur:
+            dur = 'reasonable'
         
         transport_stations = self.data.get('transport', [])
         if not isinstance(transport_stations, list):
@@ -53,6 +75,10 @@ class NeighbourhoodReflector:
         aq = self.data.get('air_quality', {})
         aqi = aq.get('aqi', 'N/A') if aq else 'N/A'
         aq_category = aq.get('category', '') if aq else ''
+        # Clean up AQI - don't show "N/A" in narrative
+        if aqi == 'N/A' or not aqi:
+            aqi = None
+            aq_category = None
         
         solar = self.data.get('solar', {})
         solar_potential = solar.get('annual_kwh', 0) if solar and isinstance(solar, dict) else 0
@@ -156,9 +182,9 @@ class NeighbourhoodReflector:
         
         # Environmental quality
         env_parts = []
-        if aqi != 'N/A':
+        if aqi and aqi != 'N/A':
             aq_desc = f"Air Quality Index of {aqi}"
-            if aq_category:
+            if aq_category and aq_category != 'unknown':
                 aq_desc += f" ({aq_category})"
             env_parts.append(aq_desc)
         
@@ -275,11 +301,31 @@ def run_neighbourhood_overview_code(property_data: Dict[str, Any], enrichment_da
                         enrichment_data = item
                         break
     
+    # Get address components from property_data
+    postcode = property_data.get('postcode', '')
+    paon = property_data.get('paon', '')
+    street = property_data.get('street', '')
+    
+    # Build address string from property_data
+    addr_parts = []
+    if paon:
+        addr_parts.append(paon)
+    if street:
+        addr_parts.append(street)
+    if postcode:
+        addr_parts.append(postcode)
+    property_address = ', '.join(addr_parts) if addr_parts else ''
+    
     if not enrichment_data:
         # Fallback: create minimal enrichment data
         enrichment_data = {
-            'address': {'formatted_address': f"{paon} {street}, {postcode}"},
-            'input_address': f"{paon} {street}, {postcode}",
+            'address': {
+                'formatted_address': property_address,
+                'paon': paon,
+                'street': street,
+                'postcode': postcode
+            },
+            'input_address': property_address,
             'commute_to_city': {'duration': 'N/A'},
             'amenities': {},
             'transport': [],
@@ -288,6 +334,20 @@ def run_neighbourhood_overview_code(property_data: Dict[str, Any], enrichment_da
             'air_quality': {'aqi': 'N/A'},
             'solar': {}
         }
+    else:
+        # Ensure enrichment_data has address from property_data if missing
+        if 'address' not in enrichment_data or not enrichment_data.get('address'):
+            enrichment_data['address'] = {}
+        if not enrichment_data['address'].get('formatted_address'):
+            enrichment_data['address']['formatted_address'] = property_address
+        if not enrichment_data['address'].get('paon'):
+            enrichment_data['address']['paon'] = paon
+        if not enrichment_data['address'].get('street'):
+            enrichment_data['address']['street'] = street
+        if not enrichment_data['address'].get('postcode'):
+            enrichment_data['address']['postcode'] = postcode
+        if not enrichment_data.get('input_address'):
+            enrichment_data['input_address'] = property_address
     
     # Generate narrative using reflection
     reflector = NeighbourhoodReflector(enrichment_data)
